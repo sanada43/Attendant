@@ -1,0 +1,10 @@
+{
+  "ocean": {
+    "Squid":10, 
+    "Octopus":8
+  },
+  "sky": {
+    "swallow":2, 
+    "crow":2
+  }
+}

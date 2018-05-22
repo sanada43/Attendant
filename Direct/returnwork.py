@@ -1,26 +1,39 @@
 #-*- coding: utf-8 -*-
 import pprint
 import requests
+import string
+import random
 
-def main():
+def randomCharacter(n):
+    c = string.ascii_uppercase
+    return ''.join([random.choice(c) for i in range(n)])
+
+def returnwork(ID,password):
     #GETパラメータはparams引数に辞書で指定する
-
+    json["LoginID"] = str(ID)
+    json["PassWord"] = str(password)
+    headers["Cookie"] = 'ASPSESSIONIDACRQBSSD=' + randomCharacter(24)
+    
+    print(json)
+    print(headers)
     response = requests.post(
 			'http://172.30.10.132/XGWeb/Xgw0c01.asp',
 	        json,
 			headers=headers)
     #レスポンスオブジェクトのjsonメソッドを使うと、
     #JSONデータをPythonの辞書オブジェクトを変換して取得できる。
-    print(response)
-	
+    
+    return response
+    
 json={'PAGESTATUS': 'PUNCH4',
-	'LoginID': '400777',
-	'PassWord': 'a09415XX',
+	'LoginID': 'aaaa',
+	'PassWord': 'aaaa',
 	'PROCESS': 'PUNCH4'}
+	
 	
 headers={
 	'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
-	'Accept-Encoding': '400777',
+	'Accept-Encoding': 'gzip, deflate',
 	'Accept-Language': 'ja,en-US;q=0.9,en;q=0.8',
 	'Cache-Control': 'max-age=0',
 	'Connection': 'keep-alive',
@@ -35,4 +48,4 @@ headers={
 
 	
 if __name__== '__main__':
-    main()
+    returnwork()
