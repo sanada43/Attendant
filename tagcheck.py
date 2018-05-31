@@ -9,8 +9,8 @@ import RPi.GPIO as GPIO
 import json #
 import datetime
 import sys
-sys.path.append('./Direct')
-sys.path.append('./RPA')
+sys.path.append('/home/pi/Attendance/Direct')
+sys.path.append('/home/pi/Attendance/RPA')
 
 from goout import goout
 from gowork import gowork 
@@ -60,9 +60,9 @@ class MyCardReader(object):
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.buzzer_pin, GPIO.OUT)
         self.buzzer = GPIO.PWM(self.buzzer_pin, 1000)
-	GPIO.setup(self.green_pin, GPIO.OUT)
-	GPIO.setup(self.red_pin, GPIO.OUT)
-	GPIO.setup(self.error_pin, GPIO.OUT)
+        GPIO.setup(self.green_pin, GPIO.OUT)
+        GPIO.setup(self.red_pin, GPIO.OUT)
+        GPIO.setup(self.error_pin, GPIO.OUT)
         GPIO.setup(23, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
         GPIO.setup(24, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
         GPIO.add_event_detect(24, GPIO.RISING, callback=black_callback, bouncetime=200)
@@ -136,7 +136,7 @@ class MyCardReader(object):
         self.buzzer.start(10)
         time.sleep(0.2)
         self.buzzer.stop()
-	GPIO.output(self.green_pin, GPIO.LOW)
+        GPIO.output(self.green_pin, GPIO.LOW)
         GPIO.output(self.red_pin, GPIO.LOW)
 
     def read_id(self):
