@@ -20,7 +20,7 @@ def leavework(ID,password):
     response = requests.post(
 			'http://172.30.10.132/XGWeb/Xgw0c01.asp',
 	        json,
-			headers=headers)
+			headers=headers, timeout=10)
     #レスポンスオブジェクトのjsonメソッドを使うと、
     #JSONデータをPythonの辞書オブジェクトを変換して取得できる。
     response.encoding = 'utf-8'

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+import mysql.connector
 import binascii
 import nfc
 import time
@@ -46,6 +46,7 @@ def black_callback(channel):
 
 
 class MyCardReader(object):
+    """
     # POST先
     #trigger_url = 'http://YOUR_TIMECARD_SYSTEM_URL/'
 	
@@ -53,10 +54,14 @@ class MyCardReader(object):
     ids = json.load(path) #ここが(2)
     # カードのIDmとユーザーの対応表
     """
+    """
     ids = {
         '012e4573fc0c2d55' : { 'name': '400777' }
     }
     """
+    ids = {}
+    
+    
     # ブザーが接続されたGPIOピン
     buzzer_pin = 25
     buzzer = None
@@ -78,7 +83,7 @@ class MyCardReader(object):
         GPIO.add_event_detect(23, GPIO.RISING, callback=white_callback, bouncetime=200)
         self.sTime = datetime.time(7,00,00,000)
         self.eTime = datetime.time(17,30,00,000)
-        
+        self.DBroad()
         GPIO.output(self.error_pin, GPIO.HIGH)
         GPIO.output(self.green_pin, GPIO.HIGH)
         GPIO.output(self.red_pin, GPIO.HIGH)
@@ -172,6 +177,16 @@ class MyCardReader(object):
             clf.connect(rdwr={'on-connect': self.on_connect})
         finally:
             clf.close()
+    
+    def DBroad(self):
+        # POST先
+        self.ids = {}
+        conn = mysql.connector.connect(user='pi', password='oceiot08', host='localhost', database='pi')
+        cur = conn.cursor()
+        cur.execute("select * from card_master;")
+        for row in cur.fetchall():#Rawテーブルをアンテナ毎のリストに振り分ける
+            self.ids.update({row[1]:{"name":row[2], "LoginID":row[3],"PassWord":row[4]}} )
+            print(row[0],row[1],row[2],row[3],row[4],row[5])
 
 def shutdown():
     os.system("sudo /sbin/shutdown -h now")
